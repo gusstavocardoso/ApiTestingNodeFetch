@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]  # Versões estáveis e atuais do Node.js
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}  # Use a versão do Node.js da matriz
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Criar arquivo .env
+        run: echo "BASE_URL=${{ secrets.BASE_URL }}" > .env
+
+      - name: Executar testes
+        run: npm test
+        
+      - name: Publicar relatório Mochawesome
+        uses: actions/upload-artifact@v2
+        with:
+          name: mochawesome-report
+          path: mochawesome-report        

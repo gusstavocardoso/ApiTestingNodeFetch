@@ -1,0 +1,8 @@
+# Diretório onde as dependências são instaladas
+node_modules/
+
+# Arquivo de ambiente
+.env
+
+# Relatórios e arquivos de cobertura
+mochawesome-report/
